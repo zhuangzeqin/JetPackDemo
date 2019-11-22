@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+        <!--引用自定义的适配器listviewadapter-->
+        <import
+            alias="LvAdapter"
+            type="com.eeepay.zzq.jetpackdemo.adapter.ListViewAdapter" />
+
+        <variable
+            name="adapterAA"
+            type="LvAdapter" />
+    </data>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!--将适配器绑定到listview-->
+        <ListView
+            android:id="@+id/lv_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:adapter="@{adapterAA}" />
+    </LinearLayout>
+
+</layout>
