@@ -1,8 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/navi"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/welcomeFragment"
     tools:ignore="UnusedNavigation">
+    <!-- startDestination 默认的起始位置 -->
+    <fragment
+        android:id="@+id/welcomeFragment"
+        android:name="com.eeepay.zzq.jetpackdemo.ui.fragment.WelcomeFragment"
+        android:label="welcome_fragment"
+        tools:layout="@layout/welcome_fragment">
+        <!-- action标签
+              app:destination	跳转完成到达的fragment的Id
+              app:popUpTo	将fragment从栈中弹出，直到某个Id的fragment
+        -->
+        <action
+            android:id="@+id/action_welcomeFragment_to_loginFragment"
+            app:destination="@id/loginFragment" />
+        <action
+            android:id="@+id/action_welcomeFragment_to_registerFragment"
+            app:popUpTo="@id/loginFragment"
+            app:destination="@id/registerFragment" />
+    </fragment>
+    <!--登录的Fragment -->
+    <fragment
+        android:id="@+id/loginFragment"
+        android:name="com.eeepay.zzq.jetpackdemo.ui.fragment.LoginFragment"
+        android:label="login_fragment"
+        tools:layout="@layout/login_fragment" />
+    <!--登录的Fragment -->
+    <fragment
+        android:id="@+id/registerFragment"
+        android:name="com.eeepay.zzq.jetpackdemo.ui.fragment.RegisterFragment"
+        android:label="register_fragment"
+        tools:layout="@layout/register_fragment">
 
+        <argument
+            android:name="EMAIL"
+            android:defaultValue="2019@qq.com"
+            app:argType="string" />
+    </fragment>
 </navigation>

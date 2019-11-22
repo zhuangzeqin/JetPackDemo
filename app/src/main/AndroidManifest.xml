@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".databing.ListViewActivity"></activity>
+        <activity android:name=".ui.act.NavHostActivity"></activity>
+        <activity android:name=".databing.ListViewActivity" />
         <activity android:name=".databing.TestDataActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
