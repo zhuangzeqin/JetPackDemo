@@ -10,6 +10,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavDirections;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.eeepay.zzq.jetpackdemo.R;
 
@@ -33,6 +35,22 @@ public class RegisterFragment extends Fragment {
        String email = RegisterFragmentArgs.fromBundle(getArguments()).getEMAIL();
        TextView tv_register = (TextView) view.findViewById(R.id.tv_register);
        tv_register.setText("注册页面:" + email);
+
+       tv_register.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               try {
+                   NavDirections navDirections = RegisterFragmentDirections.actionRegisterFragmentToLoginFragment();
+                   NavHostFragment
+                           .findNavController(RegisterFragment.this)
+                           .navigate(navDirections);
+               }catch (Exception ex)
+               {
+                   ex.printStackTrace();
+               }
+
+           }
+       });
    }
 
    @Nullable
