@@ -46,4 +46,32 @@
         android:textAllCaps="false"
         android:textColor="@android:color/white" />
 
+    <Button
+        android:id="@+id/btn_viewmodel"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="viewmodel"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+    <Button
+        android:id="@+id/btn_viewmodel2"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="viewmodel2"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+    <Button
+        android:id="@+id/btn_viewmodel3"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="viewmodel3"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
+
 </LinearLayout>

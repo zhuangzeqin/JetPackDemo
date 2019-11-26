@@ -37,5 +37,7 @@ dependencies {
     // Navigation的依赖 Java language implementation
     implementation "androidx.navigation:navigation-fragment:$nav_version"
     implementation "androidx.navigation:navigation-ui:$nav_version"
+    //viewmodel
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
 
 }
