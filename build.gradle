@@ -7,6 +7,8 @@ buildscript {
         
     }
     dependencies {
+        //该库基于沪江aspect插件库
+        classpath 'com.hujiang.aspectjx:gradle-android-plugin-aspectjx:2.0.4'
         //SafeArgs（Gradle插件） 数据传递时提供类型安全性
         def nav_version = "2.1.0"
         classpath "androidx.navigation:navigation-safe-args-gradle-plugin:$nav_version"

@@ -15,15 +15,19 @@ import com.eeepay.zzq.jetpackdemo.ui.act.NavHostActivity;
 import com.eeepay.zzq.jetpackdemo.viewmodel.ChronoActivity;
 import com.eeepay.zzq.jetpackdemo.viewmodel.SeekBarActivity;
 import com.eeepay.zzq.jetpackdemo.viewmodel.ViewModelActivity;
+import com.eeepay.zzq.jetpackdemo.workmanager.WorknanagerActivity;
+
+import cn.com.superLei.aoparms.AopArms;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView tv_msg;
-    private Button btn, btn_list, btn_navigation, btn_viewmodel, btn_viewmodel2,btn_viewmodel3;
+    private Button btn, btn_list, btn_navigation, btn_viewmodel, btn_viewmodel2, btn_viewmodel3, btn_workmanager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        AopArms.init(this);
         tv_msg = (TextView) findViewById(R.id.tv_msg);
         btn = (Button) findViewById(R.id.btn);
         btn_list = (Button) findViewById(R.id.btn_list);
@@ -31,9 +35,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_viewmodel = (Button) findViewById(R.id.btn_viewmodel);
         btn_viewmodel2 = (Button) findViewById(R.id.btn_viewmodel2);
         btn_viewmodel3 = (Button) findViewById(R.id.btn_viewmodel3);
+        btn_workmanager = (Button) findViewById(R.id.btn_workmanager);
         btn_viewmodel.setOnClickListener(this);
         btn_viewmodel2.setOnClickListener(this);
         btn_viewmodel3.setOnClickListener(this);
+        btn_workmanager.setOnClickListener(this);
 //        //通过调用生命周期类的addObserver()方法并传递观察者的实例来添加观察者。
 //        getLifecycle().addObserver(new MyObserver());
         BroadCastObserver mBroadCastObserver = new BroadCastObserver(this);
@@ -81,8 +87,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_viewmodel2://viemodel2
                 startActivity(new Intent(MainActivity.this, ChronoActivity.class));
                 break;
-                case R.id.btn_viewmodel3://viemodel3
+            case R.id.btn_viewmodel3://viemodel3
                 startActivity(new Intent(MainActivity.this, SeekBarActivity.class));
+                break;
+            case R.id.btn_workmanager://Worknanager
+                startActivity(new Intent(MainActivity.this, WorknanagerActivity.class));
                 break;
             default:
 
