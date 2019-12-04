@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".workmanager.WorknanagerActivity"></activity>
+        <activity android:name=".paging.LivePagedActivity"></activity>
+        <activity android:name=".workmanager.WorknanagerActivity" />
         <activity android:name=".viewmodel.SeekBarActivity" />
         <activity android:name=".viewmodel.ChronoActivity" />
         <activity android:name=".viewmodel.ViewModelActivity" />

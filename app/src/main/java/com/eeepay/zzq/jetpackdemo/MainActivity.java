@@ -5,13 +5,16 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.eeepay.zzq.jetpackdemo.bean.DataBean;
 import com.eeepay.zzq.jetpackdemo.databing.ListViewActivity;
 import com.eeepay.zzq.jetpackdemo.databing.TestDataActivity;
 import com.eeepay.zzq.jetpackdemo.lifecycle.BroadCastObserver;
 import com.eeepay.zzq.jetpackdemo.ui.act.NavHostActivity;
+import com.eeepay.zzq.jetpackdemo.utils.cache.LruCacheDataHelper;
 import com.eeepay.zzq.jetpackdemo.viewmodel.ChronoActivity;
 import com.eeepay.zzq.jetpackdemo.viewmodel.SeekBarActivity;
 import com.eeepay.zzq.jetpackdemo.viewmodel.ViewModelActivity;
@@ -21,7 +24,8 @@ import cn.com.superLei.aoparms.AopArms;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     private TextView tv_msg;
-    private Button btn, btn_list, btn_navigation, btn_viewmodel, btn_viewmodel2, btn_viewmodel3, btn_workmanager;
+    private Button btn, btn_list, btn_navigation, btn_viewmodel, btn_viewmodel2,
+            btn_viewmodel3, btn_workmanager, btn_cache;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +40,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_viewmodel2 = (Button) findViewById(R.id.btn_viewmodel2);
         btn_viewmodel3 = (Button) findViewById(R.id.btn_viewmodel3);
         btn_workmanager = (Button) findViewById(R.id.btn_workmanager);
+        btn_cache = (Button) findViewById(R.id.btn_cache);
         btn_viewmodel.setOnClickListener(this);
         btn_viewmodel2.setOnClickListener(this);
         btn_viewmodel3.setOnClickListener(this);
         btn_workmanager.setOnClickListener(this);
+        btn_cache.setOnClickListener(this);
 //        //通过调用生命周期类的addObserver()方法并传递观察者的实例来添加观察者。
 //        getLifecycle().addObserver(new MyObserver());
         BroadCastObserver mBroadCastObserver = new BroadCastObserver(this);
@@ -92,6 +98,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_workmanager://Worknanager
                 startActivity(new Intent(MainActivity.this, WorknanagerActivity.class));
+                break;
+            case R.id.btn_cache://三级缓存
+                LruCacheDataHelper.getInstance(MainActivity.this).addObjectToCache("userdata", new DataBean(12, "zzqybh"));
+                DataBean userdata = LruCacheDataHelper.getInstance(MainActivity.this).getObjectFromCache("userdata");
+                Toast.makeText(this, userdata.toString(), Toast.LENGTH_SHORT).show();
                 break;
             default:
 

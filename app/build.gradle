@@ -20,7 +20,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    //使用Data Binding
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+        //使用Data Binding
     dataBinding {
         enabled = true
     }
@@ -47,5 +51,8 @@ dependencies {
     //引入workmanager
     implementation "android.arch.work:work-runtime:1.0.1"
     implementation "android.arch.work:work-firebase:1.0.0-alpha11"
+
+//    compile 'com.jakewharton:disklrucache:2.0.2'
+
 
 }

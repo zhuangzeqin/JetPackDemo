@@ -82,5 +82,14 @@
         android:text="WorkManager "
         android:textAllCaps="false"
         android:textColor="@android:color/white" />
+    <Button
+        android:id="@+id/btn_cache"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="典型的三级缓存机制"
+        android:textAllCaps="false"
+        android:textColor="@android:color/white" />
 
 </LinearLayout>
