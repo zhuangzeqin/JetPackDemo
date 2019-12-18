@@ -4,7 +4,7 @@ buildscript {
     repositories {
         google()
         jcenter()
-        
+        mavenCentral()
     }
     dependencies {
         //该库基于沪江aspect插件库

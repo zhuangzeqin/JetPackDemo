@@ -10,6 +10,7 @@ import java.io.Serializable;
  * 备注:
  */
 public class DataBean implements Serializable {
+
     private long id;
 
     public long getId() {
@@ -29,6 +30,11 @@ public class DataBean implements Serializable {
     }
 
     public DataBean(long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    public DataBean() {
         this.id = id;
         this.name = name;
     }

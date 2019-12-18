@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".aop.AopActivity">
+    <!--button在父布局 水平百分之30，竖直百分之20的位置
+      app:layout_constraintHeight_percent="0.5"
+        app:layout_constraintHorizontal_bias="0.58"
+          app:layout_constraintVertical_bias="0.5"
+        app:layout_constraintWidth_percent="0.2"
+    -->
+    <!--宽度为父布局宽度的百分之20，高度为父布局高度的百分之10-->
+    <Button
+        android:id="@+id/btn_cache"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="缓存篇(可缓存任意类型)"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/btn_sharedpreferences"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="SharedPreferences篇(可保存对象)"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_cache" />
+
+    <Button
+        android:id="@+id/btn_aysnc"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="异步篇"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_sharedpreferences" />
+
+    <Button
+        android:id="@+id/btn_catch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="try-catch安全机制篇"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_aysnc" />
+
+    <Button
+        android:id="@+id/btn_retry"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="重试机制篇"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_catch" />
+
+    <Button
+        android:id="@+id/btn_scheduled"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="定时任务篇"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_retry" />
+
+    <Button
+        android:id="@+id/btn_delay"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="延迟任务篇"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_scheduled" />
+
+    <Button
+        android:id="@+id/btn_singleclick"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="过滤频繁点击"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_delay" />
+
+    <Button
+        android:id="@+id/btn_intercept"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="拦截篇(如登录)"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_singleclick" />
+
+    <Button
+        android:id="@+id/btn_permission"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="动态授权篇"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_intercept" />
+
+    <Button
+        android:id="@+id/btn_timelog"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="测试方法耗时篇"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_permission" />
+
+    <Button
+        android:id="@+id/btn_statistics"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="统计页面、方法等埋点"
+        android:textAllCaps="false"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btn_timelog" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,7 +16,7 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.eeepay.zzq.jetpackdemo.R;
-import com.eeepay.zzq.livedata.LiveDataTimerViewModel;
+import com.eeepay.zzq.jetpackdemo.livedata.LiveDataTimerViewModel;
 
 /**
  * 描述：a Fragment

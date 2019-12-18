@@ -34,7 +34,7 @@ public class WorknanagerActivity extends AppCompatActivity {
         //4.放入执行队列
         WorkManager.getInstance().enqueue(httpwork);
         //任务链
-        //1 WorkManager.getInstance().beginWith(A).then(B).then(C).enqueue();//任务ABC顺序执行
+//        1 WorkManager.getInstance().beginWith(A).then(B).then(C).enqueue();//任务ABC顺序执行
         //2 WorkManager.getInstance().beginWith(A,B).then(C).enqueue();//任务A和B同时执行，它们都执行完了之后再执行C
 
         //任务链1和任务链2同时执行，它们都执行完了之后再执行E

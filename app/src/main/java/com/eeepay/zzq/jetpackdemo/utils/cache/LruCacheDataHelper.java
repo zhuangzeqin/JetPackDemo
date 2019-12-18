@@ -1,18 +1,20 @@
 package com.eeepay.zzq.jetpackdemo.utils.cache;
 
-import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
 
+import com.eeepay.zzq.APP;
 import com.eeepay.zzq.jetpackdemo.bean.DataBean;
+import com.google.gson.Gson;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.Serializable;
+import java.util.ArrayList;
 
 /**
- * 描述：二级缓存的工具类
+ * 描述：二级缓存的工具类 可以扩展为三级缓存
  * 对于访问频率比较高，对那些大量占用应用程序宝贵内存的序列化对象
  * 作者：zhuangzeqin
  * 时间: 2019/12/4-12:12
@@ -27,9 +29,16 @@ public final class LruCacheDataHelper {
     /**
      * ------注释说明 单例模式--------
      **/
-    private LruCacheDataHelper(Context context) {
+    private LruCacheDataHelper() {
+        initDiskCache();
+    }
+
+    /**
+     * 初始化DiskLruCacheUtil
+     */
+    private void initDiskCache() {
         try {
-            mDiskLruCacheUtil = new DiskLruCacheUtil(context);
+            mDiskLruCacheUtil = new DiskLruCacheUtil(APP.getApplicationInstance().getApplicationContext());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,11 +47,11 @@ public final class LruCacheDataHelper {
     /**
      * ------注释说明 单例模式--------
      **/
-    public static LruCacheDataHelper getInstance(Context context) {
+    public static LruCacheDataHelper getInstance() {
         if (mInstance == null) {
             synchronized (LruCacheDataHelper.class) {
                 if (mInstance == null) {
-                    mInstance = new LruCacheDataHelper(context);
+                    mInstance = new LruCacheDataHelper();
                 }
             }
         }
@@ -53,19 +62,34 @@ public final class LruCacheDataHelper {
      * 每次添加到缓存里，先移除；再添加进来；确定是最新的数据
      *
      * @param key
-     * @param value
      */
-    public void addObjectToCache(@NonNull final String key, @NonNull Serializable value) {
+    public void addObjectToCache(@NonNull final String key, @NonNull Object object) {
         /** 从缓存中获取是否存在； 如果存在则先移除；然后在添加 **/
         removeLruCacheData(key);
         /** ------注释说明---磁盘缓存----- **/
         removeDiskCacheData(key);
+        //转换为Json字符串
+        String jsonData = new Gson().toJson(object);
         //放进内存中
-        LruCacheUtil.getInstance().addObjectToMemoryCache(key, value);
+        LruCacheUtil.getInstance().addObjectToMemoryCache(key, jsonData);
         //放进磁盘中
-        if (mDiskLruCacheUtil != null)
-            mDiskLruCacheUtil.put(key, value);
+        putDiskLruCacheData(key, jsonData);
     }
+
+    /**
+     * 放进磁盘中
+     *
+     * @param key
+     * @param jsonData
+     */
+    private void putDiskLruCacheData(@NonNull String key, @NonNull String jsonData) {
+        if (mDiskLruCacheUtil == null)
+            initDiskCache();
+        if (mDiskLruCacheUtil != null) {
+            mDiskLruCacheUtil.put(key, jsonData);
+        }
+    }
+
 
     /**
      * 从缓存中移除
@@ -104,6 +128,8 @@ public final class LruCacheDataHelper {
             LruCacheUtil.getInstance().clearCache();
             if (mDiskLruCacheUtil != null)
                 mDiskLruCacheUtil.delete();
+            if (mDiskLruCacheUtil.isClosed())
+                initDiskCache();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -117,59 +143,81 @@ public final class LruCacheDataHelper {
      * 依次从LruCache、DiskLruCache获取，最后才网络
      *
      * @param key
-     * @param <T>
      * @return
      */
-    public <T> T getObjectFromCache(@NonNull final String key) {
+    public String getObjectFromCache(@NonNull final String key) {
         /** 从缓存中获取 **/
-        Object object = LruCacheUtil.getInstance().getObjectFromMemCache(key);
+        String object = (String) LruCacheUtil.getInstance().getObjectFromMemCache(key);
         /** 缓存不为空 直接return 出去**/
-        if (object != null) {
-            Log.i(TAG, "从缓存获取 getObjectFromMemCache: " + ((T) object).toString());
-            return (T) object;
+        if (!TextUtils.isEmpty(object)) {
+            Log.i(TAG, "从缓存获取 getObjectFromMemCache: " + object);
+            return object;
         }
         /** 从本地磁盘上 **/
-        T localObject = mDiskLruCacheUtil.getAsSerializable(key);
-        if (localObject != null) {
-            Log.i(TAG, "从本地获取 getDateFromLocal: " + localObject.toString());
+        if (mDiskLruCacheUtil == null) {
+            /** ------注释说明--从网络上获取的数据------ **/
+            String dataFromNetWork = getDataFromNetWork(key);
+            return dataFromNetWork;
+        }
+        /** 从本地磁盘上 **/
+        String localObject = mDiskLruCacheUtil.getAsString(key);
+        if (!TextUtils.isEmpty(localObject)) {
+            Log.i(TAG, "从本地获取 getDateFromLocal: " + localObject);
             //放进内存中
             LruCacheUtil.getInstance().addObjectToMemoryCache(key, localObject);
             return localObject;
+        } else {
+            /** ------注释说明--从网络上获取的数据------ **/
+            String dataFromNetWork = getDataFromNetWork(key);
+            return dataFromNetWork;
         }
-        //***********************如果本地获取也为空；就从网络上获取(再次存放本地；存放缓存后续可以在进行扩展)**************************
-        //getDataFromNetWork 比如我主动请求后台获取数据，得到数据后
-        //放进内存中
-//        LruCacheUtil.getInstance().addObjectToMemoryCache(key, localObject);
-        //放进磁盘中
-//        if (mDiskLruCacheUtil != null)
-//            mDiskLruCacheUtil.put(key, value);
-        /** ------注释说明---- 模拟网络上获取数据---- **/
-        DataBean dataFromNetWork = getDataFromNetWork();
-        if (dataFromNetWork != null) {
-            Log.i(TAG, "从网络上获取数据 getDataFromNetWork: " + dataFromNetWork.toString());
-            //放进内存中
-            LruCacheUtil.getInstance().addObjectToMemoryCache(key, dataFromNetWork);
-            //放进磁盘中
-            if (mDiskLruCacheUtil != null)
-                mDiskLruCacheUtil.put(key, dataFromNetWork);
-            return (T) dataFromNetWork;
-        }
-        return null;
+        //3 ************扩展************
+        // 可扩展三级缓存 如果本地获取也为空；就从网络上获取一般也都是Json字符串返回
+        // 1 再次存放内存；
+        // 2 再次存放磁盘缓存)
+        // **************************************
+//        return null;
     }
+
+    /**
+     * 如果本地获取也为空；就从网络上获取(再次存放本地；存放缓存)
+     **/
+//    protected abstract Object getDataFromNetWork();
 
     /**
      * 模拟网络上获取数据
      *
      * @return
      */
-    private DataBean getDataFromNetWork() {
+    private String getDataFromNetWork(@NonNull final String key) {
         try {
+            //***********************如果本地获取也为空；就从网络上获取(再次存放本地；存放缓存后续可以在进行扩展)**************************
+            // 比如我主动请求后台获取数据，得到数据后
             Thread.sleep(1000);
-            DataBean dataBean = new DataBean(33, "我是从网络获取的数据.....");
-            return dataBean;
+            ArrayList<DataBean> dataBeans = initData();
+            //转换为Json字符串
+            String jsonData = new Gson().toJson(dataBeans);
+            if (TextUtils.isEmpty(jsonData))
+                return null;
+            //1 放进内存中
+            LruCacheUtil.getInstance().addObjectToMemoryCache(key, jsonData);
+            //2 放进磁盘中
+            putDiskLruCacheData(key, jsonData);
+            return jsonData;
         } catch (InterruptedException e) {
             e.printStackTrace();
             return null;
         }
+    }
+
+    private ArrayList<DataBean> initData() {
+        ArrayList<DataBean> list = new ArrayList<>();
+        for (int i = 0; i < 5; i++) {
+            DataBean user = new DataBean();
+            user.setName("我是从网络获取的数据:" + i);
+            user.setId(i);
+            list.add(user);
+        }
+        return list;
     }
 }
