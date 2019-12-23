@@ -60,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         tv_msg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 Intent intent = new Intent();
                 intent.setAction("xxx");
                 intent.putExtra("content", "广播1号");
@@ -111,17 +112,17 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.btn_cache://三级缓存
                 ArrayList<DataBean> dataBeans = initData();
-                //内存中获取
                 LruCacheDataHelper.getInstance().addObjectToCache("userdata", dataBeans);
+                //1 内存中获取
                 String jsonString  = LruCacheDataHelper.getInstance().getObjectFromCache("userdata");
                 List<DataBean> dataBeans1 = GsonUtil.jsonToList(jsonString, DataBean.class);
                 Toast.makeText(this, dataBeans1.get(1).toString(), Toast.LENGTH_SHORT).show();
                 LruCacheDataHelper.getInstance().removeLruCacheData("userdata");
-                //内存中没有了---->磁盘中获取
+                //2 内存中没有了---->磁盘中获取
                 String jsonString2  = LruCacheDataHelper.getInstance().getObjectFromCache("userdata");
                 List<DataBean> dataBeans2 = GsonUtil.jsonToList(jsonString2, DataBean.class);
                 Toast.makeText(this, dataBeans2.get(2).toString(), Toast.LENGTH_SHORT).show();
-                //内存中,磁盘中都没有--从网络上获取
+                //3 内存中,磁盘中都没有--从网络上获取
                 LruCacheDataHelper.getInstance().cleanAllData();
                 String jsonString3  = LruCacheDataHelper.getInstance().getObjectFromCache("userdata");
                 List<DataBean> dataBeans3 = GsonUtil.jsonToList(jsonString3, DataBean.class);

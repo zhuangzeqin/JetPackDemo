@@ -3,6 +3,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="com.eeepay.zzq.jetpackdemo">
 
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+
     <application
         android:name="com.eeepay.zzq.APP"
         android:allowBackup="true"
@@ -12,7 +16,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".aop.AopActivity"/>
+        <provider
+            android:name=".ApplicationContextProvider"
+            android:authorities="${applicationId}.permission.provider"
+            android:exported="false"
+            android:multiprocess="true" />
+
+        <activity android:name=".aop.AopActivity" />
         <activity android:name=".paging.LivePagedActivity" />
         <activity android:name=".workmanager.WorknanagerActivity" />
         <activity android:name=".viewmodel.SeekBarActivity" />
