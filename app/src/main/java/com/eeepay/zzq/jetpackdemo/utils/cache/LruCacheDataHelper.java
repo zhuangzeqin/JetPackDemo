@@ -25,6 +25,7 @@ public final class LruCacheDataHelper {
     private final static String TAG = LruCacheDataHelper.class.getSimpleName();
     private static volatile LruCacheDataHelper mInstance = null;
     private static volatile DiskLruCacheUtil mDiskLruCacheUtil = null;
+    private final static Gson MGSON = new Gson();//Gson 解析
 
     /**
      * ------注释说明 单例模式--------
@@ -69,7 +70,7 @@ public final class LruCacheDataHelper {
         /** ------注释说明---磁盘缓存----- **/
         removeDiskCacheData(key);
         //转换为Json字符串
-        String jsonData = new Gson().toJson(object);
+        String jsonData = MGSON.toJson(object);
         //放进内存中
         LruCacheUtil.getInstance().addObjectToMemoryCache(key, jsonData);
         //放进磁盘中
@@ -136,9 +137,9 @@ public final class LruCacheDataHelper {
     }
 
     /**
-     * 典型的二级缓存机制
+     * 典型的三级缓存机制
      * 1 检查是否在内存中，如果是则直接返回。
-     * 2 否则后则检查是否在磁盘上,如果在磁盘上，则存放一份在内存中，接着放回给调用方
+     * 2 否则后则检查是否在磁盘上,如果在磁盘上，则存放一份在内存中，接着返回给调用方
      * 3 可在扩展三级缓存 《《《如果本地获取也为空；就从网络上获取(再次存放disk本地；存放一份在内存中)》》》
      * 依次从LruCache、DiskLruCache获取，最后才网络
      *
@@ -196,7 +197,7 @@ public final class LruCacheDataHelper {
             Thread.sleep(1000);
             ArrayList<DataBean> dataBeans = initData();
             //转换为Json字符串
-            String jsonData = new Gson().toJson(dataBeans);
+            String jsonData = MGSON.toJson(dataBeans);
             if (TextUtils.isEmpty(jsonData))
                 return null;
             //1 放进内存中
